@@ -2,6 +2,15 @@
 
 Origin of the boilerplate code https://github.com/rgfindl/electron-cra-boilerplate
 
+## Use custom port
+
+Custom port can be useful if you want to run more then one instance of the app.
+Just pass it as environment variable:
+
+```
+$ PORT=3011 npm run electron-dev
+```
+
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
