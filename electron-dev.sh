@@ -3,4 +3,4 @@
 
 PORT="${PORT:-3000}"
 
-concurrently "BROWSER=none yarn start" "wait-on http://localhost:${PORT} && electron ."
+concurrently "BROWSER=none npm start" "wait-on http://localhost:${PORT} && electron ."

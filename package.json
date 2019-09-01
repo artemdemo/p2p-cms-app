@@ -38,7 +38,7 @@
     "eject": "react-scripts eject",
     "electron-dev": "./electron-dev.sh",
     "postinstall": "electron-builder install-app-deps",
-    "preelectron-pack": "yarn build",
+    "preelectron-pack": "npm run build",
     "electron-pack": "build -mw"
   },
   "eslintConfig": {
