@@ -1,28 +1,15 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import 'tailwindcss/dist/base.min.css';
+import 'tailwindcss/dist/components.min.css';
+import 'tailwindcss/dist/utilities.min.css';
+import NewClientForm from './components/NewClientForm/NewClientForm';
 
-class App extends Component {
-  render() {
+const App = () => {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <div className="container mx-auto">
+            <NewClientForm />
+        </div>
     );
-  }
-}
+};
 
 export default App;
