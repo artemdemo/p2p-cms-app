@@ -1,6 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const NewClientName = () => {
+const NewClientName = (props) => {
+    const { value, onChange } = props;
+
     return (
         <React.Fragment>
             <label
@@ -14,9 +17,21 @@ const NewClientName = () => {
                 id="username"
                 type="text"
                 placeholder="Name"
+                value={value}
+                onChange={onChange}
             />
         </React.Fragment>
     );
+};
+
+NewClientName.propTypes = {
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+};
+
+NewClientName.defaultProps = {
+    value: undefined,
+    onChange: undefined,
 };
 
 export default NewClientName;

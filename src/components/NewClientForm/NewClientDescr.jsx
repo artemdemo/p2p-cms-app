@@ -1,6 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const NewClientDescr = () => {
+const NewClientDescr = (props) => {
+    const { value, onChange } = props;
+
     return (
         <React.Fragment>
             <label
@@ -14,10 +17,22 @@ const NewClientDescr = () => {
                 id="description"
                 type="text"
                 placeholder="Description"
+                value={value}
+                onChange={onChange}
             >
             </textarea>
         </React.Fragment>
     );
+};
+
+NewClientDescr.propTypes = {
+    value: PropTypes.string,
+    onChange: PropTypes.func,
+};
+
+NewClientDescr.defaultProps = {
+    value: undefined,
+    onChange: undefined,
 };
 
 export default NewClientDescr;
