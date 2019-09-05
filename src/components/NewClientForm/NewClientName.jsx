@@ -8,7 +8,7 @@ const NewClientName = (props) => {
         <React.Fragment>
             <label
                 className="block text-gray-700 text-sm font-bold mb-2"
-                for="username"
+                htmlFor="username"
             >
                 Client name
             </label>
