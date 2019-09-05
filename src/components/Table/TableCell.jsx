@@ -6,6 +6,11 @@ const TableCell = props => (
     <div
         className={classnames(
             'table-cell px-4 py-2 text-sm',
+            {
+                'border-gray-300': true,
+                'border-b border-t': !props.header,
+                'border-b-2 border-t-2': props.header,
+            },
             props.className,
         )}
     >
@@ -15,10 +20,12 @@ const TableCell = props => (
 
 TableCell.propTypes = {
     className: PropTypes.string,
+    header: PropTypes.bool,
 };
 
 TableCell.defaultProps = {
     className: '',
+    header: false,
 };
 
 export default TableCell;

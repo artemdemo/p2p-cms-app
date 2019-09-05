@@ -9,7 +9,6 @@ const App = () => {
     return (
         <div className="container mx-auto">
             <NewClientForm />
-            <hr className="my-3 border-b-2 border-gray-200" />
             <ClientsList />
         </div>
     );

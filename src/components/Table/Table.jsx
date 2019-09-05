@@ -4,10 +4,13 @@ import classnames from 'classnames';
 
 const Table = props => (
     <div
-        className={classnames({
-            table: true,
-            'w-full': props.widthFull,
-        }, props.className)}
+        className={classnames(
+            'table border-collapse',
+            {
+                'w-full': props.widthFull,
+            },
+            props.className,
+        )}
     >
         {props.children}
     </div>

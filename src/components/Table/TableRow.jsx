@@ -1,15 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import TableCell from './TableCell';
 
 const TableRow = props => (
     <div
-        className={classnames({
-            'table-row': true,
-            'font-bold': props.header,
-        }, props.className)}
+        className={classnames(
+            'table-row',
+            {
+                'font-bold': props.header,
+                'bg-gray-100': props.header,
+            },
+            props.className,
+        )}
     >
-        {props.children}
+        {React.Children.map(props.children, function(child) {
+            if (props.header && child.type === TableCell) {
+                return React.cloneElement(
+                    child,
+                    {
+                        ...child.props,
+                        header: true,
+                    },
+                );
+            };
+            console.log(child, child.type === TableCell);
+            return child;
+        })}
     </div>
 );
 
