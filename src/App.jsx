@@ -3,8 +3,8 @@ import 'tailwindcss/dist/base.min.css';
 import 'tailwindcss/dist/components.min.css';
 import 'tailwindcss/dist/utilities.min.css';
 import { addNewClient } from './events/clients';
-import ClientForm from './components/ClientForm/ClientForm';
-import ClientsList from './components/ClientsList/ClientsList';
+import ClientForm from './containers/ClientForm/ClientForm';
+import ClientsList from './containers/ClientsList/ClientsList';
 
 const App = () => {
     return (

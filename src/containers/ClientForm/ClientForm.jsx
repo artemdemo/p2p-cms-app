@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import nanoid from 'nanoid';
+import Button from '../../components/Button/Button';
 import NewClientName from './ClientName';
 import NewClientDescr from './ClientDescr';
 
@@ -61,11 +62,7 @@ class ClientForm extends React.PureComponent {
                         />
                     </div>
                     <div className="flex items-center justify-between">
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            Add
-                        </button>
+                        <Button>Add</Button>
                     </div>
                 </form>
             </div>

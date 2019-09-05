@@ -1,9 +1,9 @@
 import React from 'react';
 import nanoid from 'nanoid';
 import { addNewClient } from '../../events/clients';
-import Table from '../Table/Table';
-import TableRow from '../Table/TableRow';
-import TableCell from '../Table/TableCell';
+import Table from '../../components/Table/Table';
+import TableRow from '../../components/Table/TableRow';
+import TableCell from '../../components/Table/TableCell';
 
 class ClientsList extends React.PureComponent {
     constructor(props) {
