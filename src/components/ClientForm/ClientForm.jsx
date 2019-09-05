@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NewClientName from './NewClientName';
-import NewClientDescr from './NewClientDescr';
+import NewClientName from './ClientName';
+import NewClientDescr from './ClientDescr';
 
-class NewClientForm extends React.PureComponent {
+class ClientForm extends React.PureComponent {
     constructor(props) {
         super(props);
 
@@ -16,7 +16,7 @@ class NewClientForm extends React.PureComponent {
     handleSubmit = (e) => {
         e.preventDefault();
         const { onSubmit } = this.props;
-        onSubmit && onSubmit();
+        onSubmit && onSubmit(this.state);
     };
 
     render() {
@@ -51,12 +51,12 @@ class NewClientForm extends React.PureComponent {
     }
 }
 
-NewClientForm.propTypes = {
+ClientForm.propTypes = {
     onSubmit: PropTypes.func,
 };
 
-NewClientForm.defaultProps = {
+ClientForm.defaultProps = {
     onSubmit: null,
 };
 
-export default NewClientForm;
+export default ClientForm;
