@@ -10,6 +10,7 @@ class ClientForm extends React.PureComponent {
 
         this.state = {
             name: '',
+            nameError: false,
             descr: '',
         };
     }
@@ -17,11 +18,26 @@ class ClientForm extends React.PureComponent {
     handleSubmit = (e) => {
         e.preventDefault();
         const { onSubmit } = this.props;
-        onSubmit && onSubmit({
-            name: this.state.name,
-            descr: this.state.descr,
-            id: nanoid(),
+        const nameError = this.state.name === '';
+        this.setState({
+            nameError,
         });
+        if (!nameError) {
+            onSubmit && onSubmit({
+                name: this.state.name,
+                descr: this.state.descr,
+                id: nanoid(),
+            });
+        }
+    };
+
+    handleNameChange = (e) => {
+        const { value: name } = e.target;
+
+        this.setState(prevState => ({
+            name,
+            nameError: prevState.nameError && name === '',
+        }));
     };
 
     render() {
@@ -34,7 +50,8 @@ class ClientForm extends React.PureComponent {
                     <div className="mb-4">
                         <NewClientName
                             value={this.state.name}
-                            onChange={e => this.setState({ name: e.target.value })}
+                            error={this.state.nameError}
+                            onChange={this.handleNameChange}
                         />
                     </div>
                     <div className="mb-4">
