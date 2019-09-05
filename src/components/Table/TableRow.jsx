@@ -19,12 +19,10 @@ const TableRow = props => (
                 return React.cloneElement(
                     child,
                     {
-                        ...child.props,
                         header: true,
                     },
                 );
             };
-            console.log(child, child.type === TableCell);
             return child;
         })}
     </div>

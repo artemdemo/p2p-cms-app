@@ -27,6 +27,7 @@
     "classnames": "^2.2.6",
     "electron-is-dev": "^1.0.1",
     "nanoevents": "^2.0.0",
+    "nanoid": "^2.1.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-scripts": "^3.1.1",

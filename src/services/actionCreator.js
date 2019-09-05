@@ -6,7 +6,7 @@ export const createAction = (emitter, token) => {
     resultFn.toString = () => token;
 
     resultFn.on = (cb) => {
-        resultFn._unbind = emitter.on(token, cb);
+        return emitter.on(token, cb);
     };
 
     return resultFn;
