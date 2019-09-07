@@ -7,14 +7,14 @@ const getGunServerPort = new Promise((resolve) => {
     // # message that will request data
     // # and listened to the data itself
     ipcRenderer.send('request-gun-server-port');
-    ipcRenderer.on('gun-server-port', function (event, port) {
+    ipcRenderer.on('gun-server-port', (event, port) => {
         resolve(port);
     });
 });
 
 let gun = null;
 
-const getGun = async function() {
+const getGun = async () => {
     if (!gun) {
         const port = await getGunServerPort;
         gun = Gun(`http://localhost:${port}/gun`);
@@ -30,7 +30,7 @@ export const isEmpty = (item) => {
     return true;
 };
 
-export const getCustomers = async function() {
+export const getCustomers = async () => {
     const gun = await getGun();
     return gun.get('customers');
 };

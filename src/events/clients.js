@@ -5,15 +5,13 @@ import { getCustomers } from '../services/gun';
 const clientsEmitter = new NanoEvents();
 
 export const addNewClient = createAction(clientsEmitter, 'ADD_NEW_CLIENT');
-addNewClient.on((client) => {
-    getCustomers().then((customers) => {
-        customers.set(client);
-    });
+addNewClient.on(async (client) => {
+    const customers = await getCustomers();
+    customers.set(client);
 });
 
 export const deleteClient = createAction(clientsEmitter, 'DELETE_CLIENT');
-deleteClient.on((clientId) => {
-    getCustomers().then((customers) => {
-        customers.get(clientId).put(null);
-    });
+deleteClient.on(async (clientId) => {
+    const customers = await getCustomers();
+    customers.get(clientId).put(null);
 });
