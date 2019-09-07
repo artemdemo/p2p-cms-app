@@ -25,8 +25,6 @@ app.get('/peers', (req, res) => {
             if (service.name === GUN_WEB_SERVER) {
                 res.json(service);
             }
-            console.log(service.name === GUN_WEB_SERVER);
-            console.log('Found an HTTP server:', service);
         })
     }
 });
