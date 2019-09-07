@@ -27,6 +27,11 @@ class ClientForm extends React.PureComponent {
                 name: this.state.name,
                 descr: this.state.descr,
             });
+            this.setState({
+                name: '',
+                nameError: false,
+                descr: '',
+            });
         }
     };
 
