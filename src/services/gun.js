@@ -1,7 +1,9 @@
 import Gun from 'gun';
 import { ipcRenderer } from 'electron';
+import { getIsMainApp } from '../services/app';
+import { loadPeers } from '../model/gunReq';
 
-const getGunServerPort = new Promise((resolve) => {
+export const getGunServerPort = new Promise((resolve) => {
     // In order to be able to support hot reloading and
     // to make the whole process more stable I'm using 2 step of requests:
     // # message that will request data
@@ -17,6 +19,11 @@ let gun = null;
 const getGun = async () => {
     if (!gun) {
         const port = await getGunServerPort;
+        const isMainApp = await getIsMainApp;
+        if (!isMainApp) {
+            const peers = await loadPeers();
+            console.log(peers);
+        }
         gun = Gun(`http://localhost:${port}/gun`);
     }
     return gun;

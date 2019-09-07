@@ -54,6 +54,10 @@ async function createWindow() {
     ipcMain.on('request-gun-server-port', (event) => {
         event.sender.send('gun-server-port', gunServerPort);
     });
+
+    ipcMain.on('request-is-main-app', (event) => {
+        event.sender.send('is-main-app', process.env.MAIN_APP === 'true');
+    });
 }
 
 app.on('ready', createWindow);

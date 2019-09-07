@@ -1,15 +1,17 @@
 const express = require('express');
 const Gun = require('gun');
 const bonjour = require('bonjour')();
-const nanoid = require('nanoid');
+const cors = require('cors');
 
-const GUN_WEB_SERVER = `GUN_WEB_SERVER-${nanoid()}`;
+const GUN_WEB_SERVER = `GUN_WEB_SERVER`;
 
 // `MAIN_APP` at this point defined by the user
 // `MAIN_APP=true npm run electron-dev`
 const isMainApp = process.env.MAIN_APP === 'true';
 const app = express();
  
+app.use(cors());
+
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
@@ -20,7 +22,11 @@ app.get('/peers', (req, res) => {
     } else {
         // browse for all http services
         bonjour.find({ type: 'http' }, function (service) {
-            console.log('Found an HTTP server:', service)
+            if (service.name === GUN_WEB_SERVER) {
+                res.json(service);
+            }
+            console.log(service.name === GUN_WEB_SERVER);
+            console.log('Found an HTTP server:', service);
         })
     }
 });
