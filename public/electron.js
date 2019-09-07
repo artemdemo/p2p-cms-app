@@ -52,8 +52,8 @@ async function createWindow() {
     }
     mainWindow.on('closed', () => mainWindow = null);
 
-    ipcMain.on('request-gun-server-port', () => {
-        mainWindow.webContents.send('gun-server-port', gunServerPort);
+    ipcMain.on('request-gun-server-port', (event) => {
+        event.sender.send('gun-server-port', gunServerPort);
     });
 }
 

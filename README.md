@@ -11,6 +11,12 @@ Just pass it as environment variable:
 $ PORT=3011 npm run electron-dev
 ```
 
+## Start application as main (with `gun` server)
+
+```
+$ MAIN_APP=true npm run electron-dev
+```
+
 ---
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
