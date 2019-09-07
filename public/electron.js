@@ -15,7 +15,6 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 console.log('[electron.js] Security warnings has been disabled!');
 console.log('              ^^^^^^^^ ^^^^^^^^');
 console.log(' ');
-console.log(__dirname);
 
 async function createWindow() {
     // I'm creatint port for the server here, so it will easily be available for the UI app
