@@ -4,6 +4,7 @@ import { customers } from '../../services/gun';
 import Table from '../../components/Table/Table';
 import TableRow from '../../components/Table/TableRow';
 import TableCell from '../../components/Table/TableCell';
+import Button from '../../components/Button/Button';
 
 class ClientsList extends React.PureComponent {
     constructor(props) {
@@ -36,11 +37,15 @@ class ClientsList extends React.PureComponent {
                 <TableRow header>
                     <TableCell>Name</TableCell>
                     <TableCell>Description</TableCell>
+                    <TableCell> </TableCell>
                 </TableRow>
                 {this.state.clients.map(client => (
                     <TableRow key={client.id}>
                         <TableCell>{client.name}</TableCell>
                         <TableCell>{client.descr}</TableCell>
+                        <TableCell>
+                            <Button xs>Delete</Button>
+                        </TableCell>
                     </TableRow>
                 ))}
             </Table>
