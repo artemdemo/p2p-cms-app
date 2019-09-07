@@ -3,9 +3,10 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 const Button = (props) => {
-    const { sm, xs } = props;
+    const { sm, xs, onClick } = props;
     return (
         <button
+            onClick={onClick}
             className={classnames(
                 'bg-blue-500 text-white font-bold rounded',
                 'focus:outline-none focus:shadow-outline',
@@ -26,11 +27,13 @@ const Button = (props) => {
 Button.propTypes = {
     sm: PropTypes.bool,
     xs: PropTypes.bool,
+    onClick: PropTypes.func,
 };
 
 Button.defaultProps = {
     sm: false,
     xs: false,
+    onClick: undefined,
 };
 
 export default Button;

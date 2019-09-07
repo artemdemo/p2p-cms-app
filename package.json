@@ -48,6 +48,7 @@
     "electron-is-dev": "^1.0.1",
     "express": "^4.17.1",
     "gun": "^0.2019.726",
+    "lodash": "^4.17.15",
     "nanoevents": "^2.0.0",
     "nanoid": "^2.1.0",
     "react": "^16.8.3",

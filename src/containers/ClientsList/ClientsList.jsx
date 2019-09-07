@@ -1,33 +1,26 @@
 import React from 'react';
-import nanoid from 'nanoid';
+import _without from 'lodash/without';
 import { customers } from '../../services/gun';
 import Table from '../../components/Table/Table';
 import TableRow from '../../components/Table/TableRow';
 import TableCell from '../../components/Table/TableCell';
-import Button from '../../components/Button/Button';
+import ClientListItem from './ClientListItem';
 
 class ClientsList extends React.PureComponent {
     constructor(props) {
         super(props);
 
         this.state = {
-            clients: [
-                {name: 'Ilon Noobe', descr: 'Some description', id: nanoid()},
-            ],
+            clientIds: [],
         };
     }
 
     componentDidMount() {
-        customers.map().on((client, id) => {
-            this.setState(prevState => ({
-                clients: [
-                    {
-                        ...client,
-                        id,
-                    },
-                    ...prevState.clients,
-                ],
-            }))
+        customers.on((clientsRaw) => {
+            const clientIds = _without(Object.keys(clientsRaw), '_');
+            this.setState({
+                clientIds,
+            });
         });
     }
 
@@ -37,16 +30,13 @@ class ClientsList extends React.PureComponent {
                 <TableRow header>
                     <TableCell>Name</TableCell>
                     <TableCell>Description</TableCell>
-                    <TableCell> </TableCell>
+                    <TableCell>&nbsp;</TableCell>
                 </TableRow>
-                {this.state.clients.map(client => (
-                    <TableRow key={client.id}>
-                        <TableCell>{client.name}</TableCell>
-                        <TableCell>{client.descr}</TableCell>
-                        <TableCell>
-                            <Button xs>Delete</Button>
-                        </TableCell>
-                    </TableRow>
+                {this.state.clientIds.map(clientId => (
+                    <ClientListItem
+                        clientId={clientId}
+                        key={clientId}
+                    />
                 ))}
             </Table>
         );
