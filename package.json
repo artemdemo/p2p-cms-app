@@ -3,6 +3,26 @@
   "description": "P2P CMS application",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
+  "scripts": {
+    "start": "rescripts start",
+    "build": "rescripts build",
+    "test": "rescripts test",
+    "eject": "react-scripts eject",
+    "electron-dev": "./electron-dev.sh",
+    "postinstall": "electron-builder install-app-deps",
+    "preelectron-pack": "npm run build",
+    "electron-pack": "build -mw"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "author": {
     "name": "Artem Demo",
     "email": "your.email@domain.com",
@@ -26,34 +46,14 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "electron-is-dev": "^1.0.1",
+    "express": "^4.17.1",
     "nanoevents": "^2.0.0",
     "nanoid": "^2.1.0",
-    "node-static": "^0.7.11",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-scripts": "^3.1.1",
     "tailwindcss": "^1.1.2"
   },
-  "main": "public/electron.js",
-  "scripts": {
-    "start": "rescripts start",
-    "build": "rescripts build",
-    "test": "rescripts test",
-    "eject": "react-scripts eject",
-    "electron-dev": "./electron-dev.sh",
-    "postinstall": "electron-builder install-app-deps",
-    "preelectron-pack": "npm run build",
-    "electron-pack": "build -mw"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "devDependencies": {
     "@rescripts/cli": "^0.0.10",
     "@rescripts/rescript-env": "^0.0.5",
