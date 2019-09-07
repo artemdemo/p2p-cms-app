@@ -7,6 +7,13 @@ const BrowserWindow = electron.BrowserWindow;
 
 let mainWindow;
 
+// Electron is spamming console with security warnings.
+// I don't care for now about them
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
+console.log('[electron.js] Security warnings has been disabled!');
+console.log('              ^^^^^^^^ ^^^^^^^^');
+console.log(' ');
+
 function createWindow() {
     const port = process.env.PORT || '3000';
     mainWindow = new BrowserWindow({
@@ -16,7 +23,7 @@ function createWindow() {
         // Electron Deprecation Warning (nodeIntegration default change)
         webPreferences: {
             nodeIntegration: true,
-        }
+        },
     });
     mainWindow.loadURL(isDev ? `http://localhost:${port}` : `file://${path.join(__dirname, '../build/index.html')}`);
     if (isDev) {
