@@ -2,17 +2,10 @@ const electron = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
 const { fork } = require('child_process');
-
-// I need only one main server in the network.
-// Therefore only main application should start it.
-if (process.env.MAIN_APP === 'true') {
-    // The `__dirname` variable is required if you want to deploy on a binary build otherwise the script won’t be reached properly.
-    // https://fabiofranchino.com/blog/use-electron-as-local-webserver/
-    fork(`${__dirname}/../server/server.js`);
-}
+const getPort = require('get-port');
 
 const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const { BrowserWindow, ipcMain } = electron;
 
 let mainWindow;
 
@@ -24,12 +17,28 @@ console.log('              ^^^^^^^^ ^^^^^^^^');
 console.log(' ');
 console.log(__dirname);
 
-function createWindow() {
+async function createWindow() {
+    // I'm creatint port for the server here, so it will easily be available for the UI app
+    const gunServerPort = await getPort();
+
     const port = process.env.PORT || '3000';
+
+    // The `__dirname` variable is required if you want to deploy on a binary build otherwise the script won’t be reached properly.
+    // https://fabiofranchino.com/blog/use-electron-as-local-webserver/
+    fork(
+        `${__dirname}/../server/server.js`,
+        {
+            env: {
+                ...process.env,
+                GUN_SERVER_PORT: gunServerPort,
+            },
+        },
+    );
+
     mainWindow = new BrowserWindow({
         width: 900,
         height: 680,
-        // Removing the warning in console:
+        // Removing the warning in the console:
         // Electron Deprecation Warning (nodeIntegration default change)
         webPreferences: {
             nodeIntegration: true,
@@ -42,6 +51,10 @@ function createWindow() {
         mainWindow.webContents.openDevTools();
     }
     mainWindow.on('closed', () => mainWindow = null);
+
+    ipcMain.on('request-gun-server-port', () => {
+        mainWindow.webContents.send('gun-server-port', gunServerPort);
+    });
 }
 
 app.on('ready', createWindow);

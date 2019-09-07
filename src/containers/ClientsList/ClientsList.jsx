@@ -1,6 +1,6 @@
 import React from 'react';
 import _without from 'lodash/without';
-import { customers } from '../../services/gun';
+import { getCustomers } from '../../services/gun';
 import Table from '../../components/Table/Table';
 import TableRow from '../../components/Table/TableRow';
 import TableCell from '../../components/Table/TableCell';
@@ -16,13 +16,18 @@ class ClientsList extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.watchCustomers();
+    }
+
+    watchCustomers = async () => {
+        const customers = await getCustomers();
         customers.on((clientsRaw) => {
             const clientIds = _without(Object.keys(clientsRaw), '_');
             this.setState({
                 clientIds,
             });
         });
-    }
+    };
 
     render() {
         return (

@@ -4,7 +4,7 @@ import TableRow from '../../components/Table/TableRow';
 import TableCell from '../../components/Table/TableCell';
 import Button from '../../components/Button/Button';
 import { deleteClient } from '../../events/clients';
-import { isEmpty, customers } from '../../services/gun';
+import { isEmpty, getCustomers } from '../../services/gun';
 
 class ClientListItem extends React.PureComponent {
     constructor(props) {
@@ -16,18 +16,28 @@ class ClientListItem extends React.PureComponent {
     }
 
     componentDidMount() {
+        this.watchCustomer();
+    }
+
+    componentWillUnmount() {
+        this.unwatchCustomer();
+    }
+
+    watchCustomer = async () => {
         const { clientId } = this.props;
+        const customers = await getCustomers();
         customers.get(clientId).on((client) => {
             this.setState({
                 client,
             });
         });
-    }
+    };
 
-    componentWillUnmount() {
+    unwatchCustomer = async () => {
         const { clientId } = this.props;
+        const customers = await getCustomers();
         customers.get(clientId).off();
-    }
+    };
 
     render() {
         const { clientId } = this.props;
