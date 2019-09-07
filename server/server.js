@@ -1,9 +1,13 @@
 const express = require('express');
 const Gun = require('gun');
 const bonjour = require('bonjour')();
+const nanoid = require('nanoid');
 
+const GUN_WEB_SERVER = `GUN_WEB_SERVER-${nanoid()}`;
+
+// `MAIN_APP` at this point defined by the user
+// `MAIN_APP=true npm run electron-dev`
 const isMainApp = process.env.MAIN_APP === 'true';
-
 const app = express();
  
 app.get('/', (req, res) => {
@@ -11,19 +15,27 @@ app.get('/', (req, res) => {
 });
 
 app.get('/peers', (req, res) => {
-    res.send('bonjour');
+    if (isMainApp) {
+        res.status(204).send('');
+    } else {
+        // browse for all http services
+        bonjour.find({ type: 'http' }, function (service) {
+            console.log('Found an HTTP server:', service)
+        })
+    }
 });
 
 if (isMainApp) {
     app.use(Gun.serve);
 }
 
+// Port will be provided by creator of this server - electron main process (electron.js)
 const server = app.listen(process.env.GUN_SERVER_PORT);
 
 if (isMainApp) {
-    console.log('IS MAIN APP');
+    console.log('IS MAIN APP, on port', process.env.GUN_SERVER_PORT);
     bonjour.publish({
-        name: 'Gun Web Server',
+        name: GUN_WEB_SERVER,
         type: 'http',
         port: process.env.GUN_SERVER_PORT,
     });
@@ -32,9 +44,4 @@ if (isMainApp) {
         file: 'db/data',
         web: server,
     });
-} else {
-    // browse for all http services
-    bonjour.find({ type: 'http' }, function (service) {
-        console.log('Found an HTTP server:', service)
-    })
 }
