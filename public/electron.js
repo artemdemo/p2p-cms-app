@@ -1,6 +1,15 @@
 const electron = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
+const { fork } = require('child_process');
+
+// I need only one main server in the network.
+// Therefore only main application should start it.
+if (process.env.MAIN_APP === 'true') {
+    // The `__dirname` variable is required if you want to deploy on a binary build otherwise the script won’t be reached properly.
+    // https://fabiofranchino.com/blog/use-electron-as-local-webserver/
+    fork(`${__dirname}/../server/server.js`);
+}
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -13,6 +22,7 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
 console.log('[electron.js] Security warnings has been disabled!');
 console.log('              ^^^^^^^^ ^^^^^^^^');
 console.log(' ');
+console.log(__dirname);
 
 function createWindow() {
     const port = process.env.PORT || '3000';

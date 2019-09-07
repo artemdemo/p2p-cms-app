@@ -1,6 +1,6 @@
 import Gun from 'gun';
 
-const gun = Gun();
+const gun = Gun('http://localhost:9990/gun');
 
 export const isEmpty = (item) => {
     if (item) {
