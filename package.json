@@ -47,6 +47,7 @@
     "classnames": "^2.2.6",
     "electron-is-dev": "^1.0.1",
     "express": "^4.17.1",
+    "gun": "^0.2019.726",
     "nanoevents": "^2.0.0",
     "nanoid": "^2.1.0",
     "react": "^16.8.3",

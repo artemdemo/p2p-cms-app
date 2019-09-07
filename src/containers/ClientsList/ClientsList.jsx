@@ -1,6 +1,6 @@
 import React from 'react';
 import nanoid from 'nanoid';
-import { addNewClient } from '../../events/clients';
+import { customers } from '../../services/gun';
 import Table from '../../components/Table/Table';
 import TableRow from '../../components/Table/TableRow';
 import TableCell from '../../components/Table/TableCell';
@@ -14,23 +14,20 @@ class ClientsList extends React.PureComponent {
                 {name: 'Ilon Noobe', descr: 'Some description', id: nanoid()},
             ],
         };
-
-        this.addNewClientUnbind = null;
     }
 
     componentDidMount() {
-        this.addNewClientUnbind = addNewClient.on((client) => {
+        customers.map().on((client, id) => {
             this.setState(prevState => ({
                 clients: [
+                    {
+                        ...client,
+                        id,
+                    },
                     ...prevState.clients,
-                    client,
                 ],
             }))
         });
-    }
-
-    componentWillUnmount() {
-        this.addNewClientUnbind();
     }
 
     render() {

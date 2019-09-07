@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import nanoid from 'nanoid';
 import Button from '../../components/Button/Button';
 import NewClientName from './ClientName';
 import NewClientDescr from './ClientDescr';
@@ -27,7 +26,6 @@ class ClientForm extends React.PureComponent {
             onSubmit && onSubmit({
                 name: this.state.name,
                 descr: this.state.descr,
-                id: nanoid(),
             });
         }
     };
