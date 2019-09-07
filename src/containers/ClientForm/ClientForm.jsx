@@ -18,7 +18,7 @@ class ClientForm extends React.PureComponent {
     handleSubmit = (e) => {
         e.preventDefault();
         const { onSubmit } = this.props;
-        const nameError = this.state.name === '';
+        const nameError = this.state.name.trim() === '';
         this.setState({
             nameError,
         });
