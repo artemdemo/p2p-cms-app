@@ -5,10 +5,12 @@ import * as log from 'loglevel';
 import { getIsMainApp } from '../services/app';
 import { loadPeers } from '../model/gunReq';
 
+const DEFAULT_GUN_PORT = 52089;
+
 let localGunServerPort = 0;
 
 ipcRenderer.on('gun-server-port', (event, port) => {
-    localGunServerPort = port
+    localGunServerPort = parseInt(port, 10);
 });
 
 export const getGunServerPort = () => new Promise((resolve) => {
@@ -28,19 +30,23 @@ const findMainAppGun = async () => {
     const isMainApp = await getIsMainApp();
     const mainAppGunRef = await getMainAppGun();
     let url = '';
+    let port = 0;
     log.info('isMainApp:', isMainApp);
 
     if (isMainApp) {
-        const port = await getGunServerPort();
+        port = await getGunServerPort();
         url = `http://localhost:${port}/gun`;
         log.info('Created Gun with peer:', url);
     } else {
         const peers = await loadPeers();
         const host = _get(peers, 'addresses[0]', 'localhost');
-        url = `http://${host}:${peers.port}/gun`;
+        port = peers.port;
+        url = `http://${host}:${port}/gun`;
         log.info('Updated peer:', url);
     }
-    mainAppGunRef.opt({peers: [url]});
+    if (port !== DEFAULT_GUN_PORT) {
+        mainAppGunRef.opt({peers: [url]});
+    }
 };
 
 /**
@@ -54,7 +60,7 @@ const getMainAppGun = async () => {
         // For some reason if I'm adding peer via `.opt()` application will only update it, but not read from the peer.
         // App only reads from the url passed on creation.
         // (Don't know the reason)
-        mainAppGunRef = Gun(`http://localhost:52089/gun`);
+        mainAppGunRef = Gun(`http://localhost:${DEFAULT_GUN_PORT}/gun`);
 
         // I'm not awaiting here, since I want to return refence to Gun asap
         // (even without peers)
