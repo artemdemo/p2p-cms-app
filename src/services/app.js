@@ -1,8 +1,14 @@
 import { ipcRenderer } from 'electron';
 
-export const getIsMainApp = new Promise((resolve) => {
+let isMainApp = false;
+
+ipcRenderer.on('is-main-app', (event, _isMainApp) => {
+    isMainApp = _isMainApp;
+});
+
+export const getIsMainApp = () => new Promise((resolve) => {
     ipcRenderer.send('request-is-main-app');
-    ipcRenderer.on('is-main-app', (event, _isMainApp) => {
-        resolve(_isMainApp);
-    });
+    setTimeout(() => {
+        resolve(isMainApp);
+    }, 100);
 });

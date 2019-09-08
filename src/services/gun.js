@@ -1,9 +1,10 @@
 import Gun from 'gun';
 import { ipcRenderer } from 'electron';
+import _get from 'lodash/get';
 import { getIsMainApp } from '../services/app';
 import { loadPeers } from '../model/gunReq';
 
-export const getGunServerPort = new Promise((resolve) => {
+export const getGunServerPort = () => new Promise((resolve) => {
     // In order to be able to support hot reloading and
     // to make the whole process more stable I'm using 2 step of requests:
     // # message that will request data
@@ -14,19 +15,35 @@ export const getGunServerPort = new Promise((resolve) => {
     });
 });
 
-let gun = null;
+let mainAppGunRef = null;
 
-const getGun = async () => {
-    if (!gun) {
-        const port = await getGunServerPort;
-        const isMainApp = await getIsMainApp;
-        if (!isMainApp) {
-            const peers = await loadPeers();
-            console.log(peers);
+const findMainAppGun = async () => {
+    const peers = await loadPeers();
+    const mainAppGunRef = await getMainAppGun();
+    const host = _get(peers, 'addresses[0]', 'localhost');
+    mainAppGunRef.opt(`http://${host}:${peers.port}/gun`);
+};
+
+/**
+ * Will return reference to Gun with peer to main app gun server.
+ * Or without peers if not found.
+ * (Peers will be loaded separatelly)
+ */
+const getMainAppGun = async () => {
+    const isMainApp = await getIsMainApp();
+    if (!mainAppGunRef) {
+        if (isMainApp) {
+            const port = await getGunServerPort();
+            mainAppGunRef = Gun(`http://localhost:${port}/gun`);
+        } else {
+            mainAppGunRef = Gun();
+            // I'm not awaiting here, since I want to return refence to Gun asap
+            // (even without peers)
+            // Peers will be loaded and updated separatelly
+            findMainAppGun();
         }
-        gun = Gun(`http://localhost:${port}/gun`);
     }
-    return gun;
+    return mainAppGunRef;
 };
 
 export const isEmpty = (item) => {
@@ -38,6 +55,6 @@ export const isEmpty = (item) => {
 };
 
 export const getCustomers = async () => {
-    const gun = await getGun();
-    return gun.get('customers');
+    const mainAppGunRef = await getMainAppGun();
+    return mainAppGunRef.get('customers');
 };
