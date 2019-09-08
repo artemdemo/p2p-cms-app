@@ -25,12 +25,22 @@ export const getGunServerPort = () => new Promise((resolve) => {
 let mainAppGunRef = null;
 
 const findMainAppGun = async () => {
-    const peers = await loadPeers();
+    const isMainApp = await getIsMainApp();
     const mainAppGunRef = await getMainAppGun();
-    const host = _get(peers, 'addresses[0]', 'localhost');
-    const url = `http://${host}:${peers.port}/gun`;
-    mainAppGunRef.opt(url);
-    log.info('Updated peer:', url);
+    let url = '';
+    log.info('isMainApp:', isMainApp);
+
+    if (isMainApp) {
+        const port = await getGunServerPort();
+        url = `http://localhost:${port}/gun`;
+        log.info('Created Gun with peer:', url);
+    } else {
+        const peers = await loadPeers();
+        const host = _get(peers, 'addresses[0]', 'localhost');
+        url = `http://${host}:${peers.port}/gun`;
+        log.info('Updated peer:', url);
+    }
+    mainAppGunRef.opt({peers: [url]});
 };
 
 /**
@@ -39,21 +49,17 @@ const findMainAppGun = async () => {
  * (Peers will be loaded separatelly)
  */
 const getMainAppGun = async () => {
-    const isMainApp = await getIsMainApp();
-    log.info('isMainApp:', isMainApp);
     if (!mainAppGunRef) {
-        if (isMainApp) {
-            const port = await getGunServerPort();
-            const url = `http://localhost:${port}/gun`;
-            log.info('Created Gun with peer:', url);
-            mainAppGunRef = Gun(url);
-        } else {
-            mainAppGunRef = Gun();
-            // I'm not awaiting here, since I want to return refence to Gun asap
-            // (even without peers)
-            // Peers will be loaded and updated separatelly
-            findMainAppGun();
-        }
+        // Default port is a dirty hack.
+        // For some reason if I'm adding peer via `.opt()` application will only update it, but not read from the peer.
+        // App only reads from the url passed on creation.
+        // (Don't know the reason)
+        mainAppGunRef = Gun(`http://localhost:52089/gun`);
+
+        // I'm not awaiting here, since I want to return refence to Gun asap
+        // (even without peers)
+        // Peers will be loaded and updated separatelly
+        findMainAppGun();
     }
     return mainAppGunRef;
 };

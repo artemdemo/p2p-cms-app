@@ -18,7 +18,11 @@ console.log(' ');
 
 async function createWindow() {
     // I'm creatint port for the server here, so it will easily be available for the UI app
-    const gunServerPort = await getPort();
+    // Default port is a dirty hack.
+    // For some reason if I'm adding peer via `.opt()` application will only update it, but not read from the peer.
+    // App only reads from the url passed on creation.
+    // (Don't know the reason)
+    const gunServerPort = await getPort({port: 52089});
 
     const port = process.env.PORT || '3000';
 

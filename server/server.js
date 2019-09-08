@@ -12,8 +12,16 @@ const app = express();
  
 app.use(cors());
 
+if (isMainApp) {
+    app.use(Gun.serve);
+}
+
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.json({
+        msg: 'Hello World',
+        isMainApp,
+        port: process.env.GUN_SERVER_PORT,
+    });
 });
 
 app.get('/peers', (req, res) => {
@@ -28,10 +36,6 @@ app.get('/peers', (req, res) => {
         })
     }
 });
-
-if (isMainApp) {
-    app.use(Gun.serve);
-}
 
 // Port will be provided by creator of this server - electron main process (electron.js)
 const server = app.listen(process.env.GUN_SERVER_PORT);
