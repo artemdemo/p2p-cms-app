@@ -1,6 +1,7 @@
 import Gun from 'gun';
 import { ipcRenderer } from 'electron';
 import _get from 'lodash/get';
+import * as log from 'loglevel';
 import { getIsMainApp } from '../services/app';
 import { loadPeers } from '../model/gunReq';
 
@@ -27,7 +28,9 @@ const findMainAppGun = async () => {
     const peers = await loadPeers();
     const mainAppGunRef = await getMainAppGun();
     const host = _get(peers, 'addresses[0]', 'localhost');
-    mainAppGunRef.opt(`http://${host}:${peers.port}/gun`);
+    const url = `http://${host}:${peers.port}/gun`;
+    mainAppGunRef.opt(url);
+    log.info('Updated peer:', url);
 };
 
 /**
@@ -37,10 +40,13 @@ const findMainAppGun = async () => {
  */
 const getMainAppGun = async () => {
     const isMainApp = await getIsMainApp();
+    log.info('isMainApp:', isMainApp);
     if (!mainAppGunRef) {
         if (isMainApp) {
             const port = await getGunServerPort();
-            mainAppGunRef = Gun(`http://localhost:${port}/gun`);
+            const url = `http://localhost:${port}/gun`;
+            log.info('Created Gun with peer:', url);
+            mainAppGunRef = Gun(url);
         } else {
             mainAppGunRef = Gun();
             // I'm not awaiting here, since I want to return refence to Gun asap
