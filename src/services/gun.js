@@ -4,15 +4,21 @@ import _get from 'lodash/get';
 import { getIsMainApp } from '../services/app';
 import { loadPeers } from '../model/gunReq';
 
+let localGunServerPort = 0;
+
+ipcRenderer.on('gun-server-port', (event, port) => {
+    localGunServerPort = port
+});
+
 export const getGunServerPort = () => new Promise((resolve) => {
     // In order to be able to support hot reloading and
     // to make the whole process more stable I'm using 2 step of requests:
     // # message that will request data
     // # and listened to the data itself
     ipcRenderer.send('request-gun-server-port');
-    ipcRenderer.on('gun-server-port', (event, port) => {
-        resolve(port);
-    });
+    setTimeout(() => {
+        resolve(localGunServerPort);
+    }, 100);
 });
 
 let mainAppGunRef = null;

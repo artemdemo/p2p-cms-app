@@ -21,7 +21,7 @@ app.get('/peers', (req, res) => {
         res.status(204).send('');
     } else {
         // browse for all http services
-        bonjour.find({ type: 'http' }, function (service) {
+        bonjour.find({ type: 'http' }, (service) => {
             if (service.name === GUN_WEB_SERVER) {
                 res.json(service);
             }
