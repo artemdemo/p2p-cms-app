@@ -18,6 +18,9 @@ export const getGunServerPort = () => new Promise((resolve) => {
     // # message that will request data
     // # and listened to the data itself
     ipcRenderer.send('request-gun-server-port');
+    // Yes, below is dirty hack, I know.
+    // But I can't add listener here (it will add subscription on each call)
+    // and don't have better idea for now.
     setTimeout(() => {
         resolve(localGunServerPort);
     }, 100);
