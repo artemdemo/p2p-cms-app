@@ -4,8 +4,7 @@ import _get from 'lodash/get';
 import * as log from 'loglevel';
 import { getIsMainApp } from '../services/app';
 import { loadPeers } from '../model/gunReq';
-
-const DEFAULT_GUN_PORT = 52089;
+import { DEFAULT_MAIN_GUN_PORT } from '../constants.json';
 
 let localGunServerPort = 0;
 
@@ -44,7 +43,7 @@ const findMainAppGun = async () => {
         url = `http://${host}:${port}/gun`;
         log.info('Updated peer:', url);
     }
-    if (port !== DEFAULT_GUN_PORT) {
+    if (port !== DEFAULT_MAIN_GUN_PORT) {
         mainAppGunRef.opt({peers: [url]});
     }
 };
@@ -60,7 +59,7 @@ const getMainAppGun = async () => {
         // For some reason if I'm adding peer via `.opt()` application will only update it, but not read from the peer.
         // App only reads from the url passed on creation.
         // (Don't know the reason)
-        mainAppGunRef = Gun(`http://localhost:${DEFAULT_GUN_PORT}/gun`);
+        mainAppGunRef = Gun(`http://localhost:${DEFAULT_MAIN_GUN_PORT}/gun`);
 
         // I'm not awaiting here, since I want to return refence to Gun asap
         // (even without peers)

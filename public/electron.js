@@ -3,6 +3,7 @@ const path = require('path');
 const isDev = require('electron-is-dev');
 const { fork } = require('child_process');
 const getPort = require('get-port');
+const constants = require('../src/constants.json');
 
 const app = electron.app;
 const { BrowserWindow, ipcMain } = electron;
@@ -22,7 +23,7 @@ async function createWindow() {
     // For some reason if I'm adding peer via `.opt()` application will only update it, but not read from the peer.
     // App only reads from the url passed on creation.
     // (Don't know the reason)
-    const gunServerPort = await getPort({port: 52089});
+    const gunServerPort = await getPort({port: constants.DEFAULT_MAIN_GUN_PORT});
 
     const port = process.env.PORT || '3000';
 
