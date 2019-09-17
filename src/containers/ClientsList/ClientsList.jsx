@@ -13,15 +13,22 @@ class ClientsList extends React.PureComponent {
         this.state = {
             clientIds: [],
         };
+        this.customers = null;
     }
 
     componentDidMount() {
         this.watchCustomers();
     }
 
+    componentWillUnmount() {
+        this.customers.off();
+    }
+
     watchCustomers = async () => {
-        const customers = await getCustomers();
-        customers.on((clientsRaw) => {
+        if (!this.customers) {
+            this.customers = await getCustomers();
+        }
+        this.customers.on((clientsRaw) => {
             const clientIds = _without(Object.keys(clientsRaw), '_');
             this.setState({
                 clientIds,

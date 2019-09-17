@@ -7,6 +7,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import history from './history';
 import ClientsView from './views/ClientsView';
+import HomeView from './views/HomeView';
 
 log.enableAll();
 
@@ -14,9 +15,8 @@ ReactDOM.render(
     (
         <Router history={history}>
             <App>
-                <Route exact path='/' component={ClientsView} />
-                <Route exact path='/clients' component={ClientsView} />
-                <Route exact path='/clients/:clientId' component={ClientsView} />
+                <Route exact path='/' component={HomeView} />
+                <Route path='/clients' component={ClientsView} />
             </App>
         </Router>
     ),

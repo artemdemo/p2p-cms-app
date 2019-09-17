@@ -54,12 +54,18 @@ class ClientForm extends React.PureComponent {
         );
     }
 
-    renderButton() {
-        const { client } = this.props;
+    renderButtons() {
+        const { client, onCancel } = this.props;
         const text = !!client ? 'Update' : 'Add';
         return (
             <div className="flex items-center justify-between">
                 <Button>{text}</Button>
+                <Button
+                    onClick={onCancel}
+                    type='button'
+                >
+                    Cancel
+                </Button>
             </div>
         );
     }
@@ -68,7 +74,7 @@ class ClientForm extends React.PureComponent {
         return (
             <div className="w-full max-w-s">
                 <form
-                    className="bg-white px-2 pt-1 pb-4 mb-2"
+                    className="px-2 pt-1 pb-4 mb-2"
                     onSubmit={this.handleSubmit}
                 >
                     {this.renderTitle()}
@@ -85,7 +91,7 @@ class ClientForm extends React.PureComponent {
                             onChange={e => this.setState({ descr: e.target.value })}
                         />
                     </div>
-                    {this.renderButton()}
+                    {this.renderButtons()}
                 </form>
             </div>
         );
@@ -94,6 +100,7 @@ class ClientForm extends React.PureComponent {
 
 ClientForm.propTypes = {
     onSubmit: PropTypes.func,
+    onCancel: PropTypes.func,
     client: PropTypes.shape({
         name: PropTypes.string,
         descr: PropTypes.string,
@@ -102,6 +109,7 @@ ClientForm.propTypes = {
 
 ClientForm.defaultProps = {
     onSubmit: null,
+    onCancel: undefined,
     client: null,
 };
 

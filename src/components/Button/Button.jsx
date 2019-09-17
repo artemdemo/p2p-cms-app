@@ -3,9 +3,10 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 const Button = (props) => {
-    const { sm, xs, warning, onClick } = props;
+    const { sm, xs, type, warning, onClick } = props;
     return (
         <button
+            type={type}
             onClick={onClick}
             className={classnames(
                 'text-white font-bold rounded',
@@ -29,6 +30,9 @@ const Button = (props) => {
 Button.propTypes = {
     sm: PropTypes.bool,
     xs: PropTypes.bool,
+    type: PropTypes.oneOf([
+        'submit', 'button', 'reset',
+    ]),
     warning: PropTypes.bool,
     onClick: PropTypes.func,
 };
@@ -36,6 +40,7 @@ Button.propTypes = {
 Button.defaultProps = {
     sm: false,
     xs: false,
+    type: 'submit',
     warning: false,
     onClick: undefined,
 };
