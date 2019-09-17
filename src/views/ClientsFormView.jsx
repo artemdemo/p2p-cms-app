@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import _get from 'lodash/get';
 import ClientForm from '../containers/ClientForm/ClientForm';
 import { addNewClient } from '../events/clients';
-import {getCustomers} from '../services/gun';
+import { nodeKeys, getMainAppGun } from '../services/gun';
 
 class ClientsFormView extends React.PureComponent {
     state = {
@@ -38,7 +38,8 @@ class ClientsFormView extends React.PureComponent {
 
     loadCustomer = async (clientId) => {
         if (!this.customers) {
-            this.customers = await getCustomers();
+            const gunRef = await getMainAppGun();
+            this.customers = gunRef.get(nodeKeys.CUSTOMERS);
         }
         this.customers.get(clientId).on((client) => {
             this.setState({

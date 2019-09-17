@@ -1,6 +1,6 @@
 import React from 'react';
 import _without from 'lodash/without';
-import { getCustomers } from '../../services/gun';
+import { nodeKeys, getMainAppGun } from '../../services/gun';
 import Table from '../../components/Table/Table';
 import TableRow from '../../components/Table/TableRow';
 import TableCell from '../../components/Table/TableCell';
@@ -26,7 +26,8 @@ class ClientsList extends React.PureComponent {
 
     watchCustomers = async () => {
         if (!this.customers) {
-            this.customers = await getCustomers();
+            const gunRef = await getMainAppGun();
+            this.customers = gunRef.get(nodeKeys.CUSTOMERS);
         }
         this.customers.on((clientsRaw) => {
             const clientIds = _without(Object.keys(clientsRaw), '_');

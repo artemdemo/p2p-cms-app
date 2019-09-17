@@ -54,9 +54,9 @@ const findMainAppGun = async () => {
 /**
  * Will return reference to Gun with peer to main app gun server.
  * Or without peers if not found.
- * (Peers will be loaded separatelly)
+ * (Peers will be loaded separately)
  */
-const getMainAppGun = async () => {
+export const getMainAppGun = async () => {
     if (!mainAppGunRef) {
         // Default port is a dirty hack.
         // For some reason if I'm adding peer via `.opt()` application will only update it, but not read from the peer.
@@ -80,7 +80,6 @@ export const isEmpty = (item) => {
     return true;
 };
 
-export const getCustomers = async () => {
-    const mainAppGunRef = await getMainAppGun();
-    return mainAppGunRef.get('customers');
+export const nodeKeys = {
+    CUSTOMERS: 'customers',
 };
