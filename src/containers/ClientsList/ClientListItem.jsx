@@ -50,11 +50,19 @@ class ClientListItem extends React.PureComponent {
                     <TableCell>
                         <Button
                             xs
+                            warning
                             onClick={() => {
                                 deleteClient(clientId);
                             }}
                         >
                             Delete
+                        </Button>
+                        {' '}
+                        <Button
+                            xs
+                            onClick={() => {}}
+                        >
+                            Update
                         </Button>
                     </TableCell>
                 </TableRow>
