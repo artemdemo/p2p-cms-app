@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _get from 'lodash/get';
 import Button from '../../components/Button/Button';
 import NewClientName from './ClientName';
 import NewClientDescr from './ClientDescr';
 
 class ClientForm extends React.PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            name: '',
-            nameError: false,
-            descr: '',
-        };
-    }
+    state = {
+        name: '',
+        nameError: false,
+        descr: '',
+    };
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -46,7 +43,10 @@ class ClientForm extends React.PureComponent {
 
     renderTitle() {
         const { isUpdating } = this.props;
-        const text = isUpdating ? 'Update Client' : 'Add New Client';
+        const clientId = _get(this.props, 'client._.#', '');
+        const text = isUpdating ?
+            `Client: ${clientId}` :
+            'Add New Client';
         return (
             <h1 className="font-bold text-gray-700 text-xl mb-3">
                 {text}
@@ -66,7 +66,7 @@ class ClientForm extends React.PureComponent {
 
     render() {
         return (
-            <div className="w-full max-w-xs">
+            <div className="w-full max-w-s">
                 <form
                     className="bg-white px-2 pt-1 pb-4 mb-2"
                     onSubmit={this.handleSubmit}
@@ -95,11 +95,16 @@ class ClientForm extends React.PureComponent {
 ClientForm.propTypes = {
     onSubmit: PropTypes.func,
     isUpdating: PropTypes.bool,
+    client: PropTypes.shape({
+        name: PropTypes.string,
+        descr: PropTypes.string,
+    }),
 };
 
 ClientForm.defaultProps = {
     onSubmit: null,
     isUpdating: false,
+    client: null,
 };
 
 export default ClientForm;

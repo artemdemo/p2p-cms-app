@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import TableRow from '../../components/Table/TableRow';
 import TableCell from '../../components/Table/TableCell';
 import Button from '../../components/Button/Button';
@@ -7,13 +8,9 @@ import { deleteClient } from '../../events/clients';
 import { isEmpty, getCustomers } from '../../services/gun';
 
 class ClientListItem extends React.PureComponent {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            client: null
-        };
-    }
+    state = {
+        client: null
+    };
 
     componentDidMount() {
         this.watchCustomer();
@@ -39,6 +36,11 @@ class ClientListItem extends React.PureComponent {
         customers.get(clientId).off();
     };
 
+    updateClient = () => {
+        const { history, clientId } = this.props;
+        history.push(`/clients/${clientId}`);
+    };
+
     render() {
         const { clientId } = this.props;
 
@@ -60,7 +62,7 @@ class ClientListItem extends React.PureComponent {
                         {' '}
                         <Button
                             xs
-                            onClick={() => {}}
+                            onClick={this.updateClient}
                         >
                             Update
                         </Button>
@@ -78,4 +80,4 @@ ClientListItem.propTypes = {
 
 ClientListItem.defaultProps = {};
 
-export default ClientListItem;
+export default withRouter(ClientListItem);

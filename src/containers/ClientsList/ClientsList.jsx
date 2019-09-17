@@ -46,6 +46,6 @@ class ClientsList extends React.PureComponent {
             </Table>
         );
     }
-};
+}
 
 export default ClientsList;
