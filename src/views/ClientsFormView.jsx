@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import _get from 'lodash/get';
 import ClientForm from '../containers/ClientForm/ClientForm';
 import { addNewClient } from '../events/clients';
-import { nodeKeys, getMainAppGun } from '../services/gun';
+import { nodeKeys, getClientIdFromPathname, getMainAppGun } from '../services/gun';
 
 class ClientsFormView extends React.PureComponent {
     state = {
@@ -27,10 +27,8 @@ class ClientsFormView extends React.PureComponent {
 
     watchCustomer = async () => {
         this.props.history.listen((location, action) => {
-            const clientIdRegex = /\/clients\/(\S+)/;
-            const match = clientIdRegex.exec(location.pathname);
-            if (match) {
-                const clientId = match[1];
+            const clientId = getClientIdFromPathname(location.pathname);
+            if (clientId) {
                 this.loadCustomer(clientId);
             }
         });

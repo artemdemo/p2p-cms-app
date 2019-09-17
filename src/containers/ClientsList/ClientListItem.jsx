@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import TableRow from '../../components/Table/TableRow';
 import TableCell from '../../components/Table/TableCell';
@@ -47,11 +48,15 @@ class ClientListItem extends React.PureComponent {
     };
 
     render() {
-        const { clientId } = this.props;
+        const { clientId, isActive } = this.props;
 
         if (!isEmpty(this.state.client)) {
             return (
-                <TableRow>
+                <TableRow
+                    className={classnames({
+                        'bg-green-100': isActive,
+                    })}
+                >
                     <TableCell>{this.state.client.name}</TableCell>
                     <TableCell>{this.state.client.descr}</TableCell>
                     <TableCell>
@@ -81,8 +86,11 @@ class ClientListItem extends React.PureComponent {
 
 ClientListItem.propTypes = {
     clientId: PropTypes.string.isRequired,
+    isActive: PropTypes.bool,
 };
 
-ClientListItem.defaultProps = {};
+ClientListItem.defaultProps = {
+    isActive: false,
+};
 
 export default withRouter(ClientListItem);

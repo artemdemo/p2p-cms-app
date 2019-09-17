@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import _without from 'lodash/without';
 import { nodeKeys, getMainAppGun } from '../../services/gun';
 import Table from '../../components/Table/Table';
@@ -38,6 +39,7 @@ class ClientsList extends React.PureComponent {
     };
 
     render() {
+        const { activeClientId } = this.props;
         return (
             <Table>
                 <TableRow header>
@@ -48,6 +50,7 @@ class ClientsList extends React.PureComponent {
                 {this.state.clientIds.map(clientId => (
                     <ClientListItem
                         clientId={clientId}
+                        isActive={activeClientId === clientId}
                         key={clientId}
                     />
                 ))}
@@ -55,5 +58,13 @@ class ClientsList extends React.PureComponent {
         );
     }
 }
+
+ClientsList.propTypes = {
+    activeClientId: PropTypes.string,
+};
+
+ClientsList.defaultProps = {
+    activeClientId: null,
+};
 
 export default ClientsList;

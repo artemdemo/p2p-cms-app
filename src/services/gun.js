@@ -12,6 +12,15 @@ ipcRenderer.on('gun-server-port', (event, port) => {
     localGunServerPort = parseInt(port, 10);
 });
 
+export const getClientIdFromPathname = (pathname) => {
+    const clientIdRegex = /\/clients\/(\S+)/;
+    const match = clientIdRegex.exec(pathname);
+    if (match) {
+        return match[1];
+    }
+    return null;
+};
+
 export const getGunServerPort = () => new Promise((resolve) => {
     // In order to be able to support hot reloading and
     // to make the whole process more stable I'm using 2 step of requests:
