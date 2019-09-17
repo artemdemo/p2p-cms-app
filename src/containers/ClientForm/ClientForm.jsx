@@ -42,9 +42,9 @@ class ClientForm extends React.PureComponent {
     };
 
     renderTitle() {
-        const { isUpdating } = this.props;
+        const { client } = this.props;
         const clientId = _get(this.props, 'client._.#', '');
-        const text = isUpdating ?
+        const text = !!client ?
             `Client: ${clientId}` :
             'Add New Client';
         return (
@@ -55,8 +55,8 @@ class ClientForm extends React.PureComponent {
     }
 
     renderButton() {
-        const { isUpdating } = this.props;
-        const text = isUpdating ? 'Update' : 'Add';
+        const { client } = this.props;
+        const text = !!client ? 'Update' : 'Add';
         return (
             <div className="flex items-center justify-between">
                 <Button>{text}</Button>
@@ -94,7 +94,6 @@ class ClientForm extends React.PureComponent {
 
 ClientForm.propTypes = {
     onSubmit: PropTypes.func,
-    isUpdating: PropTypes.bool,
     client: PropTypes.shape({
         name: PropTypes.string,
         descr: PropTypes.string,
@@ -103,7 +102,6 @@ ClientForm.propTypes = {
 
 ClientForm.defaultProps = {
     onSubmit: null,
-    isUpdating: false,
     client: null,
 };
 

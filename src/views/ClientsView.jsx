@@ -52,7 +52,6 @@ class ClientsView extends React.PureComponent {
                         addNewClient(client);
                     }}
                     client={this.state.client}
-                    isUpdating={!!this.state.client}
                 />
                 <ClientsList />
             </div>
