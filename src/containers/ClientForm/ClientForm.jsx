@@ -7,10 +7,21 @@ import NewClientDescr from './ClientDescr';
 
 class ClientForm extends React.PureComponent {
     state = {
+        id: '',
         name: '',
         nameError: false,
         descr: '',
     };
+
+    static getDerivedStateFromProps(props, state) {
+        const { client } = props;
+        if (_get(client, 'id') !== state.id) {
+            return {
+                ...client,
+            };
+        }
+        return null;
+    }
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +31,9 @@ class ClientForm extends React.PureComponent {
             nameError,
         });
         if (!nameError) {
+            const id = this.state.id.trim();
             onSubmit && onSubmit({
+                id: id === '' ? undefined : id,
                 name: this.state.name,
                 descr: this.state.descr,
             });
@@ -102,6 +115,7 @@ ClientForm.propTypes = {
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
     client: PropTypes.shape({
+        id: PropTypes.string,
         name: PropTypes.string,
         descr: PropTypes.string,
     }),

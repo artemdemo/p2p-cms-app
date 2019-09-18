@@ -1,8 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import _get from 'lodash/get';
+import _omit from 'lodash/omit';
 import ClientForm from '../containers/ClientForm/ClientForm';
-import { addNewCustomer } from '../events/customers';
+import { addNewCustomer, updateCustomer } from '../events/customers';
 import { nodeKeys, getClientIdFromPathname, getMainAppGun } from '../services/gun';
 
 class ClientsFormView extends React.PureComponent {
@@ -41,7 +42,10 @@ class ClientsFormView extends React.PureComponent {
         }
         this.customers.get(clientId).on((client) => {
             this.setState({
-                client,
+                client: {
+                    ...client,
+                    id: clientId,
+                },
             });
         });
     };
@@ -50,7 +54,12 @@ class ClientsFormView extends React.PureComponent {
         return (
             <ClientForm
                 onSubmit={(client) => {
-                    addNewCustomer(client);
+                    if (client.id) {
+                        updateCustomer(client.id, _omit(client, 'id'));
+                    } else {
+                        addNewCustomer(client);
+                    }
+                    this.props.history.push('/');
                 }}
                 onCancel={() => {
                     this.props.history.push('/');
