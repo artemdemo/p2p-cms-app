@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import TableRow from '../../components/Table/TableRow';
 import TableCell from '../../components/Table/TableCell';
 import Button from '../../components/Button/Button';
-import { deleteClient } from '../../events/clients';
+import { deleteCustomer } from '../../events/customers';
 import { isEmpty, getMainAppGun, nodeKeys } from '../../services/gun';
 
 class ClientListItem extends React.PureComponent {
@@ -64,7 +64,7 @@ class ClientListItem extends React.PureComponent {
                             xs
                             warning
                             onClick={() => {
-                                deleteClient(clientId);
+                                deleteCustomer(clientId);
                             }}
                         >
                             Delete

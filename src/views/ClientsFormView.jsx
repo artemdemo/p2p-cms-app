@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import _get from 'lodash/get';
 import ClientForm from '../containers/ClientForm/ClientForm';
-import { addNewClient } from '../events/clients';
+import { addNewCustomer } from '../events/customers';
 import { nodeKeys, getClientIdFromPathname, getMainAppGun } from '../services/gun';
 
 class ClientsFormView extends React.PureComponent {
@@ -50,7 +50,7 @@ class ClientsFormView extends React.PureComponent {
         return (
             <ClientForm
                 onSubmit={(client) => {
-                    addNewClient(client);
+                    addNewCustomer(client);
                 }}
                 onCancel={() => {
                     this.props.history.push('/');
