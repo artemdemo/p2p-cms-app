@@ -11,14 +11,13 @@ const Button = (props) => {
             className={classnames(
                 'text-white font-bold rounded',
                 'focus:outline-none focus:shadow-outline',
-                'hover:bg-blue-700',
                 {
                     'py-2 px-4': !sm && !xs,
                     'py-1 px-2': sm || xs,
                     'text-sm': sm,
                     'text-xs': xs,
-                    'bg-blue-500': !warning,
-                    'bg-orange-500': warning,
+                    'bg-blue-500 hover:bg-blue-700': !warning,
+                    'bg-orange-500 hover:bg-orange-600': warning,
                 },
             )}
         >
