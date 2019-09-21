@@ -54,10 +54,11 @@ class ClientsFormView extends React.PureComponent {
         return (
             <ClientForm
                 onSubmit={(client) => {
+                    const clientWithoutId = _omit(client, 'id');
                     if (client.id) {
-                        updateCustomer(client.id, _omit(client, 'id'));
+                        updateCustomer(client.id, clientWithoutId);
                     } else {
-                        addNewCustomer(client);
+                        addNewCustomer(clientWithoutId);
                     }
                     this.props.history.push('/');
                 }}
