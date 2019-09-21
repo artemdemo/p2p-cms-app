@@ -50,17 +50,20 @@ class ClientsFormView extends React.PureComponent {
         });
     };
 
+    afterUpdateGunCb = () => {
+        this.props.history.push('/');
+    };
+
     render() {
         return (
             <ClientForm
                 onSubmit={(client) => {
                     const clientWithoutId = _omit(client, 'id');
                     if (client.id) {
-                        updateCustomer(client.id, clientWithoutId);
+                        updateCustomer(client.id, clientWithoutId, this.afterUpdateGunCb);
                     } else {
-                        addNewCustomer(clientWithoutId);
+                        addNewCustomer(clientWithoutId, this.afterUpdateGunCb);
                     }
-                    this.props.history.push('/');
                 }}
                 onCancel={() => {
                     this.props.history.push('/');
