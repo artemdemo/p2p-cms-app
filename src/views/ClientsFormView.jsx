@@ -40,12 +40,17 @@ class ClientsFormView extends React.PureComponent {
             const gunRef = await getMainAppGun();
             this.customers = gunRef.get(nodeKeys.CUSTOMERS);
         }
-        this.customers.get(clientId).on((client) => {
-            this.setState({
-                client: {
-                    ...client,
-                    id: clientId,
-                },
+        // If form is loaded first, then it will affect all gun requests after that.
+        // It will case the list to display only one customer (instead of full list)
+        // Therefore I'm postponing it.
+        requestAnimationFrame(() => {
+            this.customers.get(clientId).on((client) => {
+                this.setState({
+                    client: {
+                        ...client,
+                        id: clientId,
+                    },
+                });
             });
         });
     };
