@@ -68,14 +68,19 @@ class ClientForm extends React.PureComponent {
     }
 
     renderButtons() {
-        const { client, onCancel } = this.props;
+        const { client, onCancel, disabled } = this.props;
         const text = !!client ? 'Update' : 'Add';
         return (
             <div className="flex items-center justify-between">
-                <Button>{text}</Button>
+                <Button
+                    disabled={disabled}
+                >
+                    {text}
+                </Button>
                 <Button
                     onClick={onCancel}
-                    type='button'
+                    type="button"
+                    disabled={disabled}
                 >
                     Cancel
                 </Button>
@@ -84,6 +89,7 @@ class ClientForm extends React.PureComponent {
     }
 
     render() {
+        const { disabled } = this.props;
         return (
             <div className="w-full max-w-s">
                 <form
@@ -96,12 +102,14 @@ class ClientForm extends React.PureComponent {
                             value={this.state.name}
                             error={this.state.nameError}
                             onChange={this.handleNameChange}
+                            disabled={disabled}
                         />
                     </div>
                     <div className="mb-4">
                         <NewClientDescr
                             value={this.state.descr}
                             onChange={e => this.setState({ descr: e.target.value })}
+                            disabled={disabled}
                         />
                     </div>
                     {this.renderButtons()}
@@ -114,6 +122,7 @@ class ClientForm extends React.PureComponent {
 ClientForm.propTypes = {
     onSubmit: PropTypes.func,
     onCancel: PropTypes.func,
+    disabled: PropTypes.bool,
     client: PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string,
@@ -124,6 +133,7 @@ ClientForm.propTypes = {
 ClientForm.defaultProps = {
     onSubmit: null,
     onCancel: undefined,
+    disabled: false,
     client: null,
 };
 

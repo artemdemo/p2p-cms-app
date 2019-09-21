@@ -9,6 +9,7 @@ import { nodeKeys, getClientIdFromPathname, getMainAppGun } from '../services/gu
 class ClientsFormView extends React.PureComponent {
     state = {
         client: null,
+        loading: false,
     };
     unlistenHistory = null;
     customers = null;
@@ -56,7 +57,11 @@ class ClientsFormView extends React.PureComponent {
     };
 
     afterUpdateGunCb = () => {
-        this.props.history.push('/');
+        this.setState({
+            loading: false,
+        }, () => {
+            this.props.history.push('/');
+        });
     };
 
     render() {
@@ -69,10 +74,12 @@ class ClientsFormView extends React.PureComponent {
                     } else {
                         addNewCustomer(clientWithoutId, this.afterUpdateGunCb);
                     }
+                    this.setState({ loading: true });
                 }}
                 onCancel={() => {
                     this.props.history.push('/');
                 }}
+                disabled={this.state.loading}
                 client={this.state.client}
             />
         );

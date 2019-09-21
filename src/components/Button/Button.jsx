@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 const Button = (props) => {
-    const { sm, xs, type, warning, onClick } = props;
+    const { sm, xs, type, warning, onClick, disabled } = props;
     return (
         <button
             type={type}
@@ -16,10 +16,12 @@ const Button = (props) => {
                     'py-1 px-2': sm || xs,
                     'text-sm': sm,
                     'text-xs': xs,
-                    'bg-blue-500 hover:bg-blue-700': !warning,
-                    'bg-orange-500 hover:bg-orange-600': warning,
+                    'bg-blue-500 hover:bg-blue-700': !warning && !disabled,
+                    'bg-orange-500 hover:bg-orange-600': warning && !disabled,
+                    'bg-gray-400 cursor-not-allowed': disabled,
                 },
             )}
+            disabled={disabled}
         >
             {props.children}
         </button>
@@ -33,6 +35,7 @@ Button.propTypes = {
         'submit', 'button', 'reset',
     ]),
     warning: PropTypes.bool,
+    disabled: PropTypes.bool,
     onClick: PropTypes.func,
 };
 
@@ -41,6 +44,7 @@ Button.defaultProps = {
     xs: false,
     type: 'submit',
     warning: false,
+    disabled: false,
     onClick: undefined,
 };
 
